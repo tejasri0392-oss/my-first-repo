@@ -1,0 +1,3 @@
+My name is Tejasri
+ I'm studying in AIR 
+GitHub is used to handle frontend & backend
