@@ -1,5 +1,2 @@
-student name :tejashree
-I'm studying in 3rd AIR
-SUC:2361530157
-College :Aditya womens degree college
+My name is Tejasri I'm studying in AIR learning GitHub using notepad
 
