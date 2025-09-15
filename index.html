@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartFarm Dashboard</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <a href="weather.html" class="weather-link">🌤 Check Weather</a>
+
+
+    <script src="script.js"></script>
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">   
+</head>
+<body>
+    <div class="background"></div>
+    
+    <header>
+        <h1>SmartFarm Dashboard</h1>
+        <div class="subtitle">Host: <span id="esp32-ip"></span></div>
+    </header>
+    
+    <div class="container">
+        <!-- Sensor Grid -->
+        <div class="sensor-grid">
+            <!-- Soil Moisture Card -->
+            <div class="glass-card sensor-card">
+                <div class="sensor-icon-container">
+                    <i class="fas fa-tint sensor-icon"></i>
+                    <svg class="progress-ring" width="100" height="100">
+                        <circle class="progress-ring-circle" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                </div>
+                <div class="sensor-name">Soil Moisture</div>
+                <div class="sensor-value" id="moisture-value">64</div>
+                <div class="sensor-unit">%</div>
+            </div>
+            
+            <!-- Temperature Card -->
+            <div class="glass-card sensor-card">
+                <div class="sensor-icon-container">
+                    <i class="fas fa-thermometer-half sensor-icon"></i>
+                    <svg class="progress-ring" width="100" height="100">
+                        <circle class="progress-ring-circle" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                </div>
+                <div class="sensor-name">Temperature</div>
+                <div class="sensor-value" id="temperature-value">23.5</div>
+                <div class="sensor-unit">°C</div>
+            </div>
+            
+            <!-- Humidity Card -->
+            <div class="glass-card sensor-card">
+                <div class="sensor-icon-container">
+                    <i class="fas fa-water sensor-icon"></i>
+                    <svg class="progress-ring" width="100" height="100">
+                        <circle class="progress-ring-circle" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                </div>
+                <div class="sensor-name">Humidity</div>
+                <div class="sensor-value" id="humidity-value">45</div>
+                <div class="sensor-unit">%</div>
+            </div>
+            
+            <!-- Sunlight Card -->
+            <div class="glass-card sensor-card">
+                <div class="sensor-icon-container">
+                    <i class="fas fa-sun sensor-icon"></i>
+                    <svg class="progress-ring" width="100" height="100">
+                        <circle class="progress-ring-circle" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                </div>
+                <div class="sensor-name">Sunlight</div>
+                <div class="sensor-value" id="sunlight-value">750</div>
+                <div class="sensor-unit">lux</div>
+            </div>
+            
+            <!-- Air Quality Card -->
+            <div class="glass-card sensor-card">
+                <div class="sensor-icon-container">
+                    <i class="fas fa-wind sensor-icon"></i>
+                    <svg class="progress-ring" width="100" height="100">
+                        <circle class="progress-ring-circle" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                </div>
+                <div class="sensor-name">Air Quality</div>
+                <div class="sensor-value" id="air-quality-value">85</div>
+                <div class="sensor-unit">AQI</div>
+            </div>
+            
+            <!-- Pressure Card -->
+            <div class="glass-card sensor-card">
+                <div class="sensor-icon-container">
+                    <i class="fas fa-compress-arrows-alt sensor-icon"></i>
+                    <svg class="progress-ring" width="100" height="100">
+                        <circle class="progress-ring-circle" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                </div>
+                <div class="sensor-name">Pressure</div>
+                <div class="sensor-value" id="pressure-value">1013</div>
+                <div class="sensor-unit">hPa</div>
+            </div>
+        </div>
+        
+        <!-- Bottom Section -->
+        <div class="bottom-section">
+            <!-- Weather Widget -->
+            <div class="glass-card weather-widget">
+                <div class="weather-title">Local Weather</div>
+                <div class="weather-content" id="weather-content">
+                    <div class="weather-loading">
+                        <i class="fas fa-spinner"></i>
+                        <div>Loading weather data...</div>
+                    </div>
+                </div>
+                <div class="weather-error" id="weather-error" style="display: none;">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Weather Data Error</h4>
+                    <div id="error-message">Unable to load weather data.</div>
+                    <button class="retry-button" id="retry-weather">Retry</button>
+                </div>
+                <div class="api-notice" id="api-notice" style="display: none;">
+                    Weather data requires an OpenWeatherMap API key. 
+                    <a href="https://home.openweathermap.org/users/sign_up" target="_blank">Get a free API key</a> and update the code.
+                </div>
+                <div class="debug-info" id="debug-info" style="display: none;">
+                    <h4>Debug Information:</h4>
+                    <div id="debug-content"></div>
+                </div>
+            </div>
+            
+            <!-- Analysis Section -->
+            <div class="analysis-section">
+                <button class="analyze-button" id="analyze-btn">
+                    <span>🌱</span>
+                    <span>Analyze Optimal Crop</span>
+                </button>
+                <div class="result-box" id="result-box">
+                    <div class="result-header">
+                        <i class="fas fa-seedling result-icon"></i>
+                        <div class="result-title">Crop Analysis</div>
+                    </div>
+                    <div class="result-content">
+                        <div class="crop-recommendations">
+                            Click the button above to analyze the optimal crops for current conditions.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+   
+</body>
+</html>

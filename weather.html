@@ -1,0 +1,179 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather & Plants App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style2.css">
+    <script src="script2.js" defer></script>
+
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-spinner"></div>
+    </div>
+    <h2>Weather & Plants</h2>
+  <iframe src="weather.html" width="100%" height="800px" style="border:none;"></iframe>
+
+    <!-- Location Permission Modal -->
+    <div class="location-modal" id="locationModal">
+        <div class="location-modal-content">
+            <h3 class="location-modal-title">Location Access</h3>
+            <p class="location-modal-text">This app needs access to your location to provide accurate weather information and plant recommendations. Would you like to allow location access?</p>
+            <div class="location-modal-buttons">
+                <button class="location-modal-button primary" id="allowLocation">Allow</button>
+                <button class="location-modal-button secondary" id="denyLocation">Deny</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Plants Recommendation Modal -->
+    <div class="plants-modal" id="plantsModal">
+        <div class="plants-modal-content">
+            <div class="plants-modal-header">
+                <h2 class="plants-modal-title">Plants for Your Area</h2>
+                <button class="plants-modal-close" id="closePlantsModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <p class="plants-modal-subtitle" id="plantsModalSubtitle">Based on your current weather conditions, these plants are perfect for your area:</p>
+            <div class="plants-grid" id="plantsGrid">
+                <!-- Plant cards will be added dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Weather Dashboard Section -->
+    <section class="weather-dashboard" id="weatherDashboard">
+        <div class="particles" id="particles"></div>
+        <div class="weather-effects" id="weatherEffects"></div>
+        <div class="stars" id="stars"></div>
+        
+        <header class="weather-header">
+            <div class="location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span id="locationName">Detecting location...</span>
+            </div>
+            <div class="date-time" id="dateTime"></div>
+        </header>
+
+        <div class="current-weather">
+            <div class="weather-icon" id="weatherIcon">
+                <i class="fas fa-sun"></i>
+            </div>
+            <div class="temperature" id="temperature">--°</div>
+            <div class="condition" id="condition">--</div>
+            <div class="temp-range" id="tempRange">H: --° L: --°</div>
+        </div>
+
+        <div class="weather-details">
+            <div class="detail-card">
+                <i class="fas fa-tint"></i>
+                <div class="detail-value" id="humidity">--%</div>
+                <div class="detail-label">Humidity</div>
+            </div>
+            <div class="detail-card">
+                <i class="fas fa-wind"></i>
+                <div class="detail-value" id="windSpeed">-- m/s</div>
+                <div class="detail-label">Wind Speed</div>
+            </div>
+            <div class="detail-card">
+                <i class="fas fa-thermometer-half"></i>
+                <div class="detail-value" id="pressure">-- hPa</div>
+                <div class="detail-label">Pressure</div>
+            </div>
+        </div>
+
+        <div class="forecast-container">
+            <h3 class="forecast-title">5-Day Forecast</h3>
+            <div class="forecast" id="forecast">
+                <!-- Forecast items will be added dynamically -->
+            </div>
+        </div>
+
+        <div class="toggle-container" id="toggleContainer">
+            <span>Weather</span>
+            <div class="toggle-switch" id="toggleSwitch"></div>
+            <span>Know about plants</span>
+        </div>
+    </section>
+
+    <!-- Plant Identification Section -->
+    <section class="plant-identification" id="plantIdentification">
+        <div class="particles" id="plantParticles"></div>
+        
+        <header class="plant-header">
+            <button class="back-button" id="backButton">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h2 class="plant-title">Plant Identifier</h2>
+            <div></div> <!-- Empty div for flex alignment -->
+        </header>
+
+        <div class="plant-content">
+            <div class="scan-container">
+                <button class="scan-button" id="scanButton">
+                    <i class="fas fa-camera"></i>
+                </button>
+                <div class="scan-text">Scan a plant to identify</div>
+                <div class="plant-image-container" id="plantImageContainer">
+                    <div class="plant-placeholder">
+                        <i class="fas fa-leaf" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                        <p>Plant image will appear here</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-container" id="chatContainer">
+                <div class="chat-header">
+                    <div class="chat-header-title">
+                        <span>Plant Assistant</span>
+                        <span class="ai-mode-indicator" id="aiModeIndicator" style="display: none;"></span>
+                    </div>
+                    <div class="chat-header-buttons">
+                        <button id="aiModeButton" title="AI Chat Mode">
+                            <i class="fas fa-robot"></i>
+                        </button>
+                        <button id="minimizeChat" title="Minimize">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot">
+                        Hello! I'm your plant assistant. You can ask me anything about plants or upload a plant image for identification.
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Type a message...">
+                    <button class="chat-button" id="micButton">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <button class="chat-button" id="sendButton">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="resize-handle" id="resizeHandle"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Camera View -->
+    <div class="camera-view" id="cameraView">
+        <div class="camera-feed">
+            <video id="cameraFeed" autoplay></video>
+            <canvas id="cameraCanvas" style="display: none;"></canvas>
+        </div>
+        <div class="camera-controls">
+            <button class="camera-button" id="closeCamera">
+                <i class="fas fa-times"></i>
+            </button>
+            <button class="camera-button capture" id="capturePhoto">
+                <i class="fas fa-camera"></i>
+            </button>
+        </div>
+    </div>
+</body>
+</html>
